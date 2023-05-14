@@ -42,7 +42,7 @@ const verifyJWT = (req, res, next) => {
 
 async function run() {
     try {
-        await client.connect();
+        // await client.connect();
         const carsCollection = client.db("carsDB").collection("services");
         const bookingCollection = client.db("carsDB").collection("bookings");
 
