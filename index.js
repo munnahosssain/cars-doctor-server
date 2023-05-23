@@ -55,8 +55,16 @@ async function run() {
         })
 
         app.get('/services', async (req, res) => {
-            const cursor = carsCollection.find();
-            const result = await cursor.toArray();
+            const sort = req.query.sort;
+            const search = req.query.search;
+            const query = { title: { $regex: search, $options: 'i' } };
+            // const query = {}
+            // const query = { price: { $lt: 150 } }; // lt=less then
+            // const query = { price: { $gte: 10, $lte: 200 } };
+            const options = {
+                sort: { "price": sort == 'asc' ? 1 : -1 }
+            };
+            const result = await carsCollection.find(query, options).toArray();
             res.send(result);
         });
 
@@ -129,5 +137,3 @@ run().catch(console.dir);
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`)
 });
-
-
